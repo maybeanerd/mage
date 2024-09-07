@@ -1,5 +1,5 @@
 # build xmage
-FROM maven:3-jdk-8 AS builder
+FROM maven:3.9 AS builder
 
 COPY . .
 RUN ls -la  \
