@@ -1,28 +1,17 @@
 # build xmage
-# currently fails due to mismatching versions. how did this build ever work?
+FROM maven:3-jdk-8 AS builder
 
-# FROM maven:3-jdk-8 AS builder
-
-# COPY . .
-# RUN ls -la  \
-#  && mvn clean install -DskipTests \ 
-#  && cd ./Mage.Client \
-#  && ls -la \
-#  && mvn package assembly:single \
-#  && cd ./Mage.Server \
-#  && ls -la \
-#  && mvn package assembly:single \
-#  && ls -la target \
-#  && unzip target/mage-server.zip -d xmage-server
-
-# instead of building, pull from current release
-FROM curlimages/curl AS builder
-
-WORKDIR /tmp
-
-RUN curl https://github.com/magefree/mage/releases/download/xmage_1.4.53V1/mage-full_1.4.53-dev_2024-08-16_15-45.zip -L -o xmage.zip \
-&& ls -la \
-&& unzip -q xmage.zip -d xmage
+COPY . .
+RUN ls -la  \
+ && mvn clean install -DskipTests \ 
+ && cd ./Mage.Client \
+ && ls -la \
+ && mvn package assembly:single \
+ && cd ./Mage.Server \
+ && ls -la \
+ && mvn package assembly:single \
+ && ls -la target \
+ && unzip target/mage-server.zip -d xmage-server
 
 FROM openjdk:8-jre
 
@@ -37,10 +26,8 @@ EXPOSE 17171 17179
 WORKDIR /xmage
 
 # from being built
-# COPY --from=builder /Utils/xmage-server .
+COPY --from=builder /Utils/xmage-server .
 
-# from release
-COPY --from=builder tmp/xmage/xmage/mage-server /xmage/
 COPY dockerContainerStart.sh /xmage/
 
 RUN chmod +x \
