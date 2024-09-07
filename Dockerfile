@@ -2,13 +2,10 @@
 FROM maven:3.9 AS builder
 
 COPY . .
-RUN ls -la  \
- && mvn clean install -DskipTests \ 
+RUN mvn clean install -DskipTests \ 
  && cd ./Mage.Client \
- && ls -la \
  && mvn package assembly:single \
- && cd ./Mage.Server \
- && ls -la \
+ && cd ../Mage.Server \
  && mvn package assembly:single \
  && ls -la target \
  && unzip target/mage-server.zip -d xmage-server
