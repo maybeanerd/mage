@@ -10,11 +10,11 @@ services:
     #   - 'your-mage-domain.com:0.0.0.0'
     environment:
       # Uncomment this to configure the server for your deployment URL
-      # - XMAGE_DOCKER_SERVER_ADDRESS=your-mage-domain.com
+      # - MAGE_SERVER_ADDRESS=your-mage-domain.com
       # Give the server a name, if you want to
-      - XMAGE_DOCKER_SERVER_NAME=mage-server
-      - XMAGE_DOCKER_MAX_SECONDS_IDLE=6000
-      - XMAGE_DOCKER_AUTHENTICATION_ACTIVATED=false
+      - MAGE_SERVER_NAME=mage-server
+      - MAGE_MAX_SECONDS_IDLE=6000
+      - MAGE_AUTHENTICATION_ACTIVATED=false
     volumes:
       - xmage-db:/xmage/db
       - xmage-saved:/xmage/saved
