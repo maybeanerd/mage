@@ -6,9 +6,7 @@ RUN mvn clean install -DskipTests \
  && cd ./Mage.Client \
  && mvn package assembly:single \
  && cd ../Mage.Server \
- && mvn package assembly:single \
- && ls -la target \
- && unzip target/mage-server.zip -d xmage-server
+ && mvn package assembly:single
 
 FROM openjdk:8-jre
 
@@ -23,7 +21,11 @@ EXPOSE 17171 17179
 WORKDIR /xmage
 
 # from being built
-COPY --from=builder /Utils/xmage-server .
+COPY --from=builder Mage.Server/target/mage-server.zip .
+
+RUN unzip mage-server.zip \
+ && rm mage-server.zip \
+ && ls -la
 
 COPY dockerContainerStart.sh /xmage/
 
