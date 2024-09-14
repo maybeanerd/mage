@@ -19,7 +19,7 @@ import mage.players.Player;
  */
 public interface Match {
 
-    int SIDEBOARD_TIME = 180;
+    int SIDEBOARD_TIME = 600;
 
     UUID getId();
 
